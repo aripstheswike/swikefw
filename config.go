@@ -1,12 +1,13 @@
 package framework
 
 import (
+	"io/ioutil"
+	"os"
+
 	"github.com/gin-contrib/sessions"
 	"github.com/gin-contrib/sessions/cookie"
 	"github.com/gin-gonic/gin"
 	"gopkg.in/yaml.v2"
-	"io/ioutil"
-	"os"
 )
 
 type ConfigNew struct {
@@ -30,7 +31,7 @@ func (r *Init) Get() {
 }
 
 func (r *Init) Run() {
-	r.Begin.Run(":" + os.Getenv("portHost"))
+	r.Begin.Run(":" + os.Getenv("PORT"))
 }
 
 func Config(key string) string {
@@ -41,10 +42,10 @@ func ReloadConfig() {
 	var cfg ConfigNew
 	var fileName = "config.yml"
 	var exist = FileExist(fileName)
-	if !exist{
+	if !exist {
 		fileName = "config.yaml"
 		exist = FileExist(fileName)
-		if !exist{
+		if !exist {
 			panic("config.yaml or config.yml doesn't exist")
 		}
 	}
